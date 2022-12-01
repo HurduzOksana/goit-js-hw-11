@@ -1,0 +1,60 @@
+@import './common';
+@import './example';
+
+.search-form {
+    padding: 20px 600px;
+    background-color: steelblue;
+}
+
+
+.load-more.is-hidden {
+    display: none;
+}
+
+.gallery {
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.photo-card {
+flex-basis: calc((100% - 90px)/4);
+border-radius: 5px;
+}
+
+.info-item {
+display: flex;
+flex-direction: column;
+}
+
+.images {
+display: block;
+width: 350px;
+height: 220px;
+object-fit: cover;
+}
+
+.info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+
+    font-size: 12px;
+    text-align: center;
+    color: #464646;
+}
+
+.load-more {
+    display: block;
+    margin: 0 auto;
+    border: none;
+    padding: 10px 25px;
+    font-size: 14px;
+    background-color: steelblue;
+    color: #ffffff;
+    text-transform: uppercase;
+}
