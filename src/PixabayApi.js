@@ -14,7 +14,7 @@ export class PixabayApi {
   }
       
   fetchPhotosByQuery() {
-    return axios.get(`${this.BASE_URL}?${searchParams}?${this.API_KEY}`, {
+    return axios.get(`${this.BASE_URL}?${this.API_KEY}`, {
       params: {
         q: this.query,
         page: this.page,
