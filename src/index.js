@@ -10,7 +10,7 @@ const picturesGallery = document.querySelector(`.gallery`);
 
 const pixabayApiExemp = new PixabayApi();
 
-// ================================================================================
+
 function onSearch(event) {
     event.preventDefault();
     pixabayApiExemp.page = 1;
@@ -67,7 +67,7 @@ function onClickLoad(event) {
     pixabayApiExemp.fetchPhotosByQuery()
         .then(data => {
             
-            if (pixabayApiExemp.page > data.totalHits) {
+            if (pixabayApiExemp.page > data.hits) {
                 loadMoreBtn.classList.add(`is-hidden`)
                 onFetchInfo();
                 return;
