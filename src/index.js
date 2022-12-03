@@ -10,7 +10,6 @@ const picturesGallery = document.querySelector(`.gallery`);
 
 const pixabayApiExemp = new PixabayApi();
 
-
 async function onSearch(event) {
     event.preventDefault();
     pixabayApiExemp.page = 1;
@@ -30,6 +29,7 @@ async function onSearch(event) {
         
         if (response.data.total < 40) {
             renderPicturesGallery(response.data.hits);
+            onFetchMessage(response.data.totalHits);
             return;
         }
 
@@ -39,7 +39,9 @@ async function onSearch(event) {
             
             onFetchMessage(response.data.totalHits);
 
-            loadMoreBtn.classList.remove(`is-hidden`)
+        loadMoreBtn.classList.remove(`is-hidden`)
+        
+        
 
      } catch (err) {
         console.log(err);
@@ -47,30 +49,7 @@ async function onSearch(event) {
 
     
    
-    // pixabayApiExemp.fetchPhotosByQuery()   
-    //     .then((data) => {
-    //         if (data.total === 0) {
-    //             picturesGallery.innerHTML = '';
-    //             loadMoreBtn.classList.add(`is-hidden`)
-    //             onFetchError();
-    //             event.target.reset();
-    //             return;
-    //         }
-           
-    //         console.log(data)
 
-    //         renderPicturesGallery(data.hits);
-            
-    //         simpleLightbox.refresh();
-            
-    //         onFetchMessage(data.totalHits);
-
-    //         loadMoreBtn.classList.remove(`is-hidden`)
-        
-    //     })
-    //      .catch(err => {
-    //   console.log(err);
-    // });
 }
 
 
@@ -107,31 +86,13 @@ async function onClickLoad(event) {
         
         renderPicturesGallery(response.data.hits);
         simpleLightbox.refresh();
-        scroll();
+        
 
     } catch (err) {
         console.log(err);
     }
     
-    // pixabayApiExemp.fetchPhotosByQuery()
-    //     .then(data => {
-            
-    //         if (pixabayApiExemp.page > data.hits) {
-    //             loadMoreBtn.classList.add(`is-hidden`)
-    //             onFetchInfo();
-    //             return;
-    //         }
-            
-        
-    //         renderPicturesGallery(data.hits);
-            
-    //         simpleLightbox.refresh();
-    //         scroll();
-            
-    //     })
-    //     .catch(err => {
-    //   console.log(err);
-    // });
+   
 }
 
 function onFetchError(error) {
@@ -152,15 +113,6 @@ const simpleLightbox = new SimpleLightbox('.gallery a', {
   captionDelay: `250`
  });
 
-function scroll() {
-    const { height: cardHeight } =
-    picturesGallery.firstElementChild.getBoundingClientRect();
-
-window.scrollBy({
-  top: cardHeight * 2,
-  behavior: "smooth",
-});
- }
 
 searchFormElem.addEventListener(`submit`, onSearch);
 loadMoreBtn.addEventListener(`click`, onClickLoad)
