@@ -11,35 +11,63 @@ const picturesGallery = document.querySelector(`.gallery`);
 const pixabayApiExemp = new PixabayApi();
 
 
-function onSearch(event) {
+async function onSearch(event) {
     event.preventDefault();
     pixabayApiExemp.page = 1;
     pixabayApiExemp.query = event.currentTarget.elements.query.value;
-   
-    pixabayApiExemp.fetchPhotosByQuery()   
-        .then((data) => {
-            if (data.total === 0) {
+
+    try {
+        const response = await pixabayApiExemp.fetchPhotosByQuery();
+        console.log(response.data);
+
+        if (response.data.total === 0) {
                 picturesGallery.innerHTML = '';
                 loadMoreBtn.classList.add(`is-hidden`)
                 onFetchError();
                 event.target.reset();
                 return;
-            }
-           
-            console.log(data)
+        }
+        
+        
 
-            renderPicturesGallery(data.hits);
+            renderPicturesGallery(response.data.hits);
             
             simpleLightbox.refresh();
             
-            onFetchMessage(data.totalHits);
+            onFetchMessage(response.data.totalHits);
 
             loadMoreBtn.classList.remove(`is-hidden`)
+
+     } catch (err) {
+        console.log(err);
+    }
+
+    
+   
+    // pixabayApiExemp.fetchPhotosByQuery()   
+    //     .then((data) => {
+    //         if (data.total === 0) {
+    //             picturesGallery.innerHTML = '';
+    //             loadMoreBtn.classList.add(`is-hidden`)
+    //             onFetchError();
+    //             event.target.reset();
+    //             return;
+    //         }
+           
+    //         console.log(data)
+
+    //         renderPicturesGallery(data.hits);
+            
+    //         simpleLightbox.refresh();
+            
+    //         onFetchMessage(data.totalHits);
+
+    //         loadMoreBtn.classList.remove(`is-hidden`)
         
-        })
-         .catch(err => {
-      console.log(err);
-    });
+    //     })
+    //      .catch(err => {
+    //   console.log(err);
+    // });
 }
 
 
@@ -61,28 +89,46 @@ function renderPicturesGallery(data) {
     picturesGallery.innerHTML = markup;
 }
 
-function onClickLoad(event) {
+async function onClickLoad(event) {
     pixabayApiExemp.page += 1;
-    
-    pixabayApiExemp.fetchPhotosByQuery()
-        .then(data => {
-            
-            if (pixabayApiExemp.page > data.hits) {
+
+    try {
+
+        const response = await pixabayApiExemp.fetchPhotosByQuery();
+
+        if (pixabayApiExemp.page > response.data.hits) {
                 loadMoreBtn.classList.add(`is-hidden`)
                 onFetchInfo();
                 return;
-            }
+        }
+        
+        renderPicturesGallery(response.data.hits);
+        simpleLightbox.refresh();
+        scroll();
+
+    } catch (err) {
+        console.log(err);
+    }
+    
+    // pixabayApiExemp.fetchPhotosByQuery()
+    //     .then(data => {
+            
+    //         if (pixabayApiExemp.page > data.hits) {
+    //             loadMoreBtn.classList.add(`is-hidden`)
+    //             onFetchInfo();
+    //             return;
+    //         }
             
         
-            renderPicturesGallery(data.hits);
+    //         renderPicturesGallery(data.hits);
             
-            simpleLightbox.refresh();
-            scroll();
+    //         simpleLightbox.refresh();
+    //         scroll();
             
-        })
-        .catch(err => {
-      console.log(err);
-    });
+    //     })
+    //     .catch(err => {
+    //   console.log(err);
+    // });
 }
 
 function onFetchError(error) {
