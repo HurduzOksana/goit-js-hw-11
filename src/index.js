@@ -28,7 +28,10 @@ async function onSearch(event) {
                 return;
         }
         
-        
+        if (response.data.total < 40) {
+            renderPicturesGallery(response.data.hits);
+            return;
+        }
 
             renderPicturesGallery(response.data.hits);
             
